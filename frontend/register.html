@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medicare Connect – Login</title>
+<title>Medicare Connect – Register</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,20 +17,24 @@
     <div class="brand-icon">💊</div>
     <h1>Medicare Connect</h1>
   </div>
-  <p class="subtitle">Sign in to continue</p>
+  <p class="subtitle">Create your account</p>
 
-  <select id="role">
-    <option value="patient">🧑‍⚕️ Login as Patient</option>
-    <option value="family">👨‍👩‍👧 Login as Family Member</option>
+  <select id="role" onchange="document.getElementById('patientIdDisplay').style.display='none'">
+    <option value="patient">🧑‍⚕️ Register as Patient</option>
+    <option value="family">👨‍👩‍👧 Register as Family Member</option>
   </select>
 
-  <input type="email" id="email" placeholder="Email Address">
-  <input type="password" id="password" placeholder="Password">
+  <input type="text"     id="name"            placeholder="Full Name">
+  <input type="email"    id="email"           placeholder="Email Address">
+  <input type="password" id="password"        placeholder="Password">
+  <input type="password" id="confirmPassword" placeholder="Confirm Password">
 
-  <button onclick="login()">Sign In →</button>
+  <div class="patient-id-box" id="patientIdDisplay"></div>
 
-  <p style="margin-top:20px;">
-    Don't have an account? <a href="register.html">Register Here</a>
+  <button onclick="register()">Create Account →</button>
+
+  <p style="margin-top:18px;">
+    Already have an account? <a href="login.html">Login Here</a>
   </p>
 </div>
 

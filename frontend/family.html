@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicare Connect – Family Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="blob-extra"></div>
+<div class="stars-layer" id="stars"></div>
+
+<div class="container dashboard">
+
+  <div class="dash-header">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand-icon">👨‍👩‍👧</div>
+      <span class="dash-title">Family Dashboard</span>
+    </div>
+    <span class="user-badge" id="userBadge">👤 Family</span>
+  </div>
+
+  <!-- Link Patient -->
+  <div class="card">
+    <h3>🔗 Link Patient</h3>
+    <input type="text" id="patientLinkId" placeholder="Enter Patient ID (e.g. PAT1234)">
+    <button onclick="linkPatient()">Link Patient</button>
+  </div>
+
+  <!-- Add Medicine -->
+  <div class="card">
+    <h3>➕ Add Medicine</h3>
+    <input type="text"  id="medName" placeholder="Medicine Name">
+    <input type="time"  id="time">
+    <input type="text"  id="dose"    placeholder="Dose (e.g. 1 Tablet)">
+    <button onclick="addMedicine()">Add Medicine</button>
+  </div>
+
+  <!-- Monitoring -->
+  <h3>📊 Monitoring</h3>
+  <div id="monitorList">
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <p>Link a patient and add medicines<br>to start monitoring.</p>
+    </div>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+</div>
+
+<script src="script.js"></script>
+<script>
+  /* Stars */
+  (function(){
+    var s=document.getElementById('stars');
+    for(var i=0;i<75;i++){
+      var d=document.createElement('div');d.className='star';
+      var sz=Math.random()*2.5+0.8;
+      d.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*5+'s;animation-duration:'+(2+Math.random()*4)+'s;';
+      s.appendChild(d);
+    }
+  })();
+
+  /* Badge */
+  var cu = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  if (cu.name) document.getElementById("userBadge").innerText = "👤 " + cu.name;
+
+  /* Refresh monitor panel */
+  function refreshMonitor() {
+    cu = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    if (!cu.linkedPatientId) return;
+    var meds = JSON.parse(localStorage.getItem("meds") || "[]");
+    var container = document.getElementById("monitorList");
+    var filtered = meds.filter(function(m){ return m.patientId === cu.linkedPatientId; });
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">💊</div><p>No medicines added yet for this patient.</p></div>';
+      return;
+    }
+    container.innerHTML = filtered.map(function(med){
+      return '<div class="medicine-card">' +
+        '<h3>💊 ' + med.name + '</h3>' +
+        '<p>⏰ Time: ' + med.time + '</p>' +
+        '<p>💉 Dose: ' + med.dose + '</p>' +
+        '<span class="status ' + (med.taken ? 'taken' : 'missed') + '">' +
+        (med.taken ? '✅ Taken' : '⚠ Not Taken') + '</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  refreshMonitor();
+
+  function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+  }
+</script>
+</body>
+</html>

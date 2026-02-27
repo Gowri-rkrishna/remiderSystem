@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicare Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-deep: #1a1040;
+    --purple-mid: #2d1b69;
+    --purple-light: #6c3fc5;
+    --violet: #8b5cf6;
+    --lavender: #a78bfa;
+    --pink-accent: #c084fc;
+    --glow-pink: #e879f9;
+    --text-white: #f5f3ff;
+    --text-muted: rgba(245,243,255,0.6);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: var(--purple-deep);
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Animated background blobs */
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: blobFloat 8s ease-in-out infinite;
+  }
+  .blob1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #6c3fc5, transparent);
+    top: -150px; left: -100px;
+    animation-delay: 0s;
+  }
+  .blob2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #e879f9, transparent);
+    bottom: -100px; right: -80px;
+    animation-delay: 3s;
+  }
+  .blob3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, #7c3aed, transparent);
+    top: 40%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 1.5s;
+  }
+
+  /* Stars */
+  .stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  @keyframes blobFloat {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    33% { transform: scale(1.05) translate(10px, -15px); }
+    66% { transform: scale(0.95) translate(-10px, 10px); }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* Main content */
+  .splash-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Logo icon */
+  .logo-icon {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    box-shadow: 0 0 40px rgba(139,92,246,0.6), 0 0 80px rgba(192,132,252,0.3);
+    animation: logoPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    margin-bottom: 8px;
+  }
+
+  @keyframes logoPop {
+    0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  .brand-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(38px, 8vw, 64px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #f5f3ff 0%, #c084fc 50%, #e879f9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slideUp 0.8s 0.3s ease both;
+    line-height: 1.1;
+  }
+
+  .brand-tagline {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: slideUp 0.8s 0.5s ease both;
+  }
+
+  .divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c084fc, transparent);
+    margin: 6px auto;
+    animation: slideUp 0.8s 0.6s ease both;
+  }
+
+  .splash-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 320px;
+    line-height: 1.7;
+    animation: slideUp 0.8s 0.7s ease both;
+  }
+
+  /* Feature pills */
+  .pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 8px 0;
+    animation: slideUp 0.8s 0.85s ease both;
+  }
+  .pill {
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(167,139,250,0.35);
+    background: rgba(124,58,237,0.15);
+    color: var(--lavender);
+    backdrop-filter: blur(8px);
+  }
+
+  /* CTA Buttons */
+  .btn-group {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    animation: slideUp 0.8s 1s ease both;
+  }
+
+  .btn-primary {
+    padding: 14px 36px;
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(124,58,237,0.5);
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(192,132,252,0.5);
+  }
+
+  .btn-outline {
+    padding: 14px 36px;
+    background: transparent;
+    color: var(--lavender);
+    border: 1.5px solid rgba(167,139,250,0.5);
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    backdrop-filter: blur(8px);
+  }
+  .btn-outline:hover {
+    background: rgba(124,58,237,0.2);
+    border-color: var(--lavender);
+    transform: translateY(-3px);
+  }
+
+  /* Loading bar at bottom */
+  .loading-bar-container {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    animation: slideUp 0.8s 1.2s ease both;
+    text-align: center;
+  }
+  .loading-bar-container p {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .loading-bar {
+    width: 120px;
+    height: 3px;
+    background: rgba(167,139,250,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .loading-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c3aed, #e879f9);
+    border-radius: 10px;
+    animation: loadFill 2.5s 1.5s ease forwards;
+    width: 0%;
+  }
+
+  @keyframes loadFill {
+    to { width: 100%; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Pulse ring around logo */
+  .logo-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pulse-ring {
+    position: absolute;
+    width: 110px; height: 110px;
+    border: 2px solid rgba(192,132,252,0.4);
+    border-radius: 28px;
+    animation: pulseRing 2.5s ease-in-out infinite;
+  }
+  .pulse-ring2 {
+    width: 135px; height: 135px;
+    animation-delay: 0.8s;
+    border-color: rgba(232,121,249,0.2);
+  }
+
+  @keyframes pulseRing {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.08); opacity: 0.2; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+
+<div class="stars" id="stars"></div>
+
+<div class="splash-content">
+  <div class="logo-wrapper">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring pulse-ring2"></div>
+    <div class="logo-icon">💊</div>
+  </div>
+
+  <div>
+    <h1 class="brand-name">Medicare Connect</h1>
+    <div class="divider"></div>
+    <p class="brand-tagline">Family Linked Medicine Monitoring</p>
+  </div>
+
+  <p class="splash-desc">
+    Stay on top of your health journey. Smart reminders, family monitoring, and seamless care — all in one place.
+  </p>
+
+  <div class="pills">
+    <span class="pill">💬 Real-time Alerts</span>
+    <span class="pill">👨‍👩‍👧 Family Linked</span>
+    <span class="pill">⏰ Smart Reminders</span>
+  </div>
+
+  <div class="btn-group">
+    <a href="login.html" class="btn-primary">Get Started</a>
+    <a href="register.html" class="btn-outline">Register</a>
+  </div>
+</div>
+
+<div class="loading-bar-container">
+  <p>Your health companion</p>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<script>
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 1;
+    star.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      top: ${Math.random() * 100}%;
+      left: ${Math.random() * 100}%;
+      animation-delay: ${Math.random() * 5}s;
+      animation-duration: ${2 + Math.random() * 4}s;
+    `;
+    starsEl.appendChild(star);
+  }
+</script>
+</body>
+</html>

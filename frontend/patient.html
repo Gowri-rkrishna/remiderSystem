@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicare Connect – Patient Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="blob-extra"></div>
+<div class="stars-layer" id="stars"></div>
+
+<div class="container dashboard">
+
+  <div class="dash-header">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand-icon">💊</div>
+      <span class="dash-title">Patient Dashboard</span>
+    </div>
+    <span class="user-badge" id="userBadge">👤 Patient</span>
+  </div>
+
+  <div id="medList"></div>
+
+  <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+</div>
+
+<script src="script.js"></script>
+<script>
+  /* Stars */
+  (function(){
+    var s=document.getElementById('stars');
+    for(var i=0;i<75;i++){
+      var d=document.createElement('div');d.className='star';
+      var sz=Math.random()*2.5+0.8;
+      d.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*5+'s;animation-duration:'+(2+Math.random()*4)+'s;';
+      s.appendChild(d);
+    }
+  })();
+
+  /* Badge name */
+  var cu = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  if (cu.name) document.getElementById("userBadge").innerText = "👤 " + cu.name;
+
+  /* Empty state fallback */
+  var medListEl = document.getElementById("medList");
+  if (medListEl && !medListEl.innerHTML.trim()) {
+    var meds = JSON.parse(localStorage.getItem("meds") || "[]");
+    var filtered = cu.patientId ? meds.filter(function(m){ return m.patientId === cu.patientId; }) : [];
+    if (filtered.length === 0) {
+      medListEl.innerHTML =
+        '<div class="empty-state">' +
+        '<div class="empty-icon">💊</div>' +
+        '<p>No medicines added yet.<br>Ask your family member to add your medicines.</p>' +
+        '</div>';
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+  }
+</script>
+</body>
+</html>
