@@ -4,48 +4,469 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Medicare Connect – Login</title>
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Variables ── */
+:root {
+  --purple-deep: #1a1040;
+  --violet: #7c3aed;
+  --lavender: #a78bfa;
+  --pink-accent: #c084fc;
+  --glow-pink: #e879f9;
+  --text-white: #f5f3ff;
+  --text-muted: rgba(245,243,255,0.6);
+  --border: rgba(167,139,250,0.25);
+  --card-bg: rgba(30,16,70,0.72);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--purple-deep);
+  color: var(--text-white);
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════
+   SHARED BACKGROUND (blobs + stars)
+══════════════════════════════════════ */
+.bg-fixed {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  animation: blobFloat 9s ease-in-out infinite;
+}
+.blob1 { width:580px; height:580px; top:-200px; left:-140px; background:radial-gradient(circle,#6c3fc5,transparent 70%); }
+.blob2 { width:480px; height:480px; bottom:-150px; right:-110px; background:radial-gradient(circle,#e879f9,transparent 70%); animation-duration:11s; animation-direction:reverse; }
+.blob3 { width:340px; height:340px; top:42%; left:52%; transform:translate(-50%,-50%); background:radial-gradient(circle,#7c3aed,transparent 70%); animation-delay:2s; animation-duration:7s; }
+
+@keyframes blobFloat {
+  0%,100% { transform: scale(1) translate(0,0); }
+  33%      { transform: scale(1.06) translate(12px,-18px); }
+  66%      { transform: scale(0.94) translate(-10px,12px); }
+}
+
+.stars-layer { position:absolute; inset:0; }
+.star {
+  position:absolute; background:white; border-radius:50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity:0.15; transform:scale(1); }
+  50%      { opacity:0.9;  transform:scale(1.4); }
+}
+
+/* ══════════════════════════════════════
+   SECTION 1 — WELCOME SPLASH
+══════════════════════════════════════ */
+#welcome {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* Logo */
+.logo-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: popIn 0.8s 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+}
+
+.logo-box {
+  width: 130px; height: 130px;
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
+  border-radius: 34px;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 68px;
+  box-shadow: 0 0 60px rgba(139,92,246,0.7), 0 0 120px rgba(192,132,252,0.35);
+  position: relative; z-index: 1;
+}
+
+.pulse { position:absolute; border-radius:38px; border:2px solid rgba(192,132,252,0.4); animation:pulseRing 2.5s ease-in-out infinite; }
+.pulse1 { width:158px; height:158px; }
+.pulse2 { width:192px; height:192px; animation-delay:0.9s; border-color:rgba(232,121,249,0.2); }
+
+@keyframes pulseRing {
+  0%,100% { transform:scale(1); opacity:0.7; }
+  50%      { transform:scale(1.08); opacity:0.2; }
+}
+
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.3) rotate(-15deg); }
+  to   { opacity:1; transform:scale(1) rotate(0deg); }
+}
+
+/* Brand name letter animation */
+.brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(64px, 15vw, 120px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #e879f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  overflow: visible;
+  filter: drop-shadow(0 0 30px rgba(192,132,252,0.5));
+}
+
+.brand-name .letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px) scale(0.8);
+  animation: letterUp 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+}
+
+/* space between words */
+.brand-name .space { display: inline-block; width: 0.28em; }
+
+@keyframes letterUp {
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.brand-divider {
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c084fc, transparent);
+  margin: 14px auto;
+  animation: expandLine 0.7s 2.2s ease forwards;
+}
+@keyframes expandLine { to { width: 120px; } }
+
+.brand-sub {
+  font-size: 20px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: fadeUp 0.6s 2.5s ease forwards;
+}
+
+.brand-desc {
+  font-size: 22px;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.85;
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeUp 0.6s 2.8s ease forwards;
+}
+
+.pills {
+  display: flex; gap:14px; flex-wrap:wrap; justify-content:center;
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeUp 0.6s 3.1s ease forwards;
+}
+.pill {
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 17px; font-weight: 700;
+  border: 1px solid rgba(167,139,250,0.35);
+  background: rgba(124,58,237,0.15);
+  color: var(--lavender);
+  backdrop-filter: blur(8px);
+}
+
+/* Scroll-down arrow */
+.scroll-arrow {
+  margin-top: 55px;
+  opacity: 0;
+  animation: fadeUp 0.6s 3.5s ease forwards;
+  cursor: pointer;
+  display: flex; flex-direction:column; align-items:center; gap:8px;
+}
+.scroll-arrow span {
+  font-size: 16px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.arrow-icon {
+  width: 52px; height: 52px;
+  border: 2px solid rgba(167,139,250,0.4);
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  animation: arrowBounce 1.6s ease-in-out infinite;
+  color: var(--lavender); font-size: 24px;
+}
+@keyframes arrowBounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(7px); }
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ══════════════════════════════════════
+   TRANSITION STRIP
+══════════════════════════════════════ */
+.section-transition {
+  position: relative; z-index:1;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(30,16,70,0.6));
+}
+
+/* ══════════════════════════════════════
+   SECTION 2 — LOGIN FORM
+══════════════════════════════════════ */
+#login-section {
+  position: relative; z-index:1;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px 60px;
+}
+
+.container {
+  background: var(--card-bg);
+  padding: 50px 48px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+              inset 0 1px 0 rgba(255,255,255,0.07);
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  /* Reveal when scrolled into view */
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.brand-header {
+  display: flex; align-items:center; justify-content:center; gap:14px;
+  margin-bottom: 8px;
+}
+
+.brand-icon {
+  width:58px; height:58px;
+  background: linear-gradient(135deg,#7c3aed,#c084fc);
+  border-radius:16px; display:flex; align-items:center; justify-content:center;
+  font-size:28px;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.55);
+  flex-shrink:0;
+}
+
+.brand-header h2 {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:32px; font-weight:700;
+  background: linear-gradient(135deg,#f5f3ff 20%,#c084fc 80%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+.subtitle {
+  color: var(--text-muted); font-size:18px;
+  margin-bottom:28px; letter-spacing:0.4px;
+}
+
+select, input {
+  width:100%; padding:18px 20px; margin:9px 0;
+  border-radius:14px; border:1px solid var(--border);
+  background:rgba(255,255,255,0.05); color:var(--text-white);
+  font-family:'Nunito',sans-serif; font-size:19px;
+  transition: border .25s, box-shadow .25s, background .25s;
+  -webkit-appearance:none; appearance:none;
+}
+input::placeholder { color:rgba(167,139,250,0.45); }
+input:focus, select:focus {
+  outline:none; border-color:var(--lavender);
+  background:rgba(124,58,237,0.12);
+  box-shadow:0 0 0 3px rgba(124,58,237,0.22);
+}
+select option { background:#2d1b69; color:var(--text-white); }
+
+button {
+  width:100%; padding:18px; margin-top:16px;
+  border-radius:14px; border:none;
+  font-family:'Nunito',sans-serif; font-size:20px; font-weight:700;
+  cursor:pointer;
+  background: linear-gradient(135deg,#7c3aed,#c084fc);
+  color:white;
+  transition: transform .25s, box-shadow .25s;
+  box-shadow: 0 6px 24px rgba(124,58,237,0.45);
+  letter-spacing:0.5px;
+}
+button:hover { transform:translateY(-2px); box-shadow:0 12px 36px rgba(192,132,252,0.5); }
+button:active { transform:translateY(0); }
+
+a { color:var(--lavender); text-decoration:none; font-weight:700; transition:color .2s; font-size:18px; }
+a:hover { color:var(--glow-pink); }
+p { color:var(--text-muted); font-size:18px; margin-top:16px; }
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .container { padding:32px 22px; max-width:100%; }
+  .logo-box { width:100px; height:100px; font-size:52px; }
+  .brand-desc { font-size: 18px; }
+  .brand-sub { font-size: 16px; letter-spacing: 3px; }
+  .pill { font-size: 15px; }
+  .brand-header h2 { font-size: 26px; }
+  select, input { font-size: 17px; padding: 16px 18px; }
+  button { font-size: 18px; padding: 16px; }
+  a, p { font-size: 16px; }
+}
+</style>
 </head>
 <body>
 
-<!-- Animated background -->
-<div class="blob-extra"></div>
-<div class="stars-layer" id="stars"></div>
-
-<div class="container">
-  <div class="brand-header">
-    <div class="brand-icon">💊</div>
-    <h1>Medicare Connect</h1>
-  </div>
-  <p class="subtitle">Sign in to continue</p>
-
-  <select id="role">
-    <option value="patient">🧑‍⚕️ Login as Patient</option>
-    <option value="family">👨‍👩‍👧 Login as Family Member</option>
-  </select>
-
-  <input type="email" id="email" placeholder="Email Address">
-  <input type="password" id="password" placeholder="Password">
-
-  <button onclick="login()">Sign In →</button>
-
-  <p style="margin-top:20px;">
-    Don't have an account? <a href="register.html">Register Here</a>
-  </p>
+<!-- ── Shared fixed background ── -->
+<div class="bg-fixed">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="stars-layer" id="stars"></div>
 </div>
+
+<!-- ══ SECTION 1: WELCOME SPLASH ══ -->
+<section id="welcome">
+
+  <div class="logo-wrap">
+    <div class="pulse pulse1"></div>
+    <div class="pulse pulse2"></div>
+    <div class="logo-box">💊</div>
+  </div>
+
+  <div class="brand-name" id="brandName"></div>
+  <span class="brand-name">Medicare Connect</span>
+  <div class="brand-divider"></div>
+  <p class="brand-sub">Family Linked Medicine Monitoring</p>
+
+  <p class="brand-desc">
+    Stay on top of your health journey. Smart reminders, family monitoring, and seamless care — all in one place.
+  </p>
+
+  <div class="pills">
+    <span class="pill">⏰ Smart Reminders</span>
+    <span class="pill">👨‍👩‍👧 Family Linked</span>
+    <span class="pill">💬 Real-time Alerts</span>
+  </div>
+
+  <div class="scroll-arrow" onclick="scrollToLogin()">
+    <span>Sign In</span>
+    <div class="arrow-icon">↓</div>
+  </div>
+
+</section>
+
+<div class="section-transition"></div>
+
+<!-- ══ SECTION 2: LOGIN FORM ══ -->
+<section id="login-section">
+  <div class="container" id="loginCard">
+
+    <div class="brand-header">
+      <div class="brand-icon">💊</div>
+      <h2>Medicare Connect</h2>
+    </div>
+    <p class="subtitle">Welcome back — sign in to continue</p>
+
+    <select id="role">
+      <option value="patient">🧑‍⚕️ Login as Patient</option>
+      <option value="family">👨‍👩‍👧 Login as Family Member</option>
+    </select>
+
+    <input type="email"    id="email"    placeholder="Email Address">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Sign In →</button>
+
+    <p style="margin-top:20px;">
+      Don't have an account? <a href="register.html">Register Here</a>
+    </p>
+
+  </div>
+</section>
 
 <script src="script.js"></script>
 <script>
-  (function(){
-    var s=document.getElementById('stars');
-    for(var i=0;i<75;i++){
-      var d=document.createElement('div');
-      d.className='star';
-      var sz=Math.random()*2.5+0.8;
-      d.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*5+'s;animation-duration:'+(2+Math.random()*4)+'s;';
-      s.appendChild(d);
+/* ── Stars ── */
+(function(){
+  var s = document.getElementById('stars');
+  for (var i = 0; i < 80; i++) {
+    var d = document.createElement('div');
+    d.className = 'star';
+    var sz = Math.random() * 2.5 + 0.8;
+    d.style.cssText =
+      'width:' + sz + 'px;height:' + sz + 'px;' +
+      'top:' + Math.random() * 100 + '%;left:' + Math.random() * 100 + '%;' +
+      'animation-delay:' + Math.random() * 5 + 's;' +
+      'animation-duration:' + (2 + Math.random() * 4) + 's;';
+    s.appendChild(d);
+  }
+})();
+
+/* ── Letter-by-letter brand name animation ── */
+(function(){
+  var text = 'Medicare Connect';
+  var container = document.getElementById('brandName');
+  var baseDelay = 1.15; // starts right after logo pop completes (0.3s delay + 0.8s duration)
+
+  for (var i = 0; i < text.length; i++) {
+    if (text[i] === ' ') {
+      var sp = document.createElement('span');
+      sp.className = 'space';
+      container.appendChild(sp);
+    } else {
+      var span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = text[i];
+      span.style.animationDelay = (baseDelay + i * 0.055) + 's';
+      container.appendChild(span);
     }
-  })();
+  }
+})();
+
+/* ── Smooth scroll to login ── */
+function scrollToLogin() {
+  document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Auto-scroll after welcome finishes (3.8s) ── */
+setTimeout(function(){
+  scrollToLogin();
+}, 5000);
+
+/* ── Reveal login card on scroll (IntersectionObserver) ── */
+var card = document.getElementById('loginCard');
+var observer = new IntersectionObserver(function(entries){
+  if (entries[0].isIntersecting) {
+    card.classList.add('visible');
+    observer.disconnect();
+  }
+}, { threshold: 0.2 });
+observer.observe(card);
 </script>
+
 </body>
 </html>
