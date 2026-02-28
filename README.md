@@ -56,12 +56,13 @@ List the key features of your project:
 
 #### Installation
 ```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+npm init -y
+npm install express mongoose dotenv cors bcryptjs jsonwebtoken
 ```
 
 #### Run
 ```bash
-[Run commands - e.g., npm start, python app.py]
+node server.js
 ```
 
 ### For Hardware:
