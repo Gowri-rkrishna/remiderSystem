@@ -6,23 +6,23 @@
 
 ## Basic Details
 
-### Team Name: [Aatrix]
+### Team Name: Aatrix
 
 ### Team Members
-- Member 1: [Aarushi Sankar] - [College of Engineering Chengannur]
-- Member 2: [Gowri Krishna R] - [College of Engineering Chengannur]
+- Member 1: Aarushi Sankar - College of Engineering Chengannur
+- Member 2: Gowri Krishna R - College of Engineering Chengannur
 
 ### Hosted Project Link
 [mention your project hosted link here]
 
 ### Project Description
-[2-3 lines about what your project ]
+Medicare Connect is a family-linked medicine reminder web app designed for elderly patients, where family members can register their loved ones, add their daily medicines with dosage and timing, and monitor whether they've been taken. Patients receive clear reminders and can mark medicines as taken, while family members get real-time status updates all through a simple, large-text interface built for ease of use by seniors.
 
 ### The Problem statement
-[What problem are you solving?]
+Elderly patients often struggle to remember their daily medications, leading to missed doses, incorrect timings, and serious health complications. Managing multiple medicines becomes overwhelming without proper support, and family members especially those living apart have no reliable way to monitor whether their loved ones are taking their prescribed medicines on time. Existing reminder apps are often too complex, small-screened, or not designed with seniors in mind, making them difficult to use for the very people who need them most.
 
 ### The Solution
-[How are you solving it?]
+Medicare Connect is a family-linked medicine monitoring web application specifically designed to bridge the gap between elderly patients and their caregivers. Upon registration, each patient receives a unique Patient ID that their family member can use to link accounts, creating a direct digital connection between the patient and their support network. Family members can then log in to add the patient's medicines including the medicine name, dosage, and scheduled time — directly from their own device, no matter where they are. On the patient's side, the interface displays all their medicines in large, readable text with clear "Mark as Taken" buttons, making it effortless for seniors to interact with the app. Family members can monitor the status of each medicine in real time, instantly seeing whether a dose has been taken or missed. The app features a calming, high-contrast visual design with large fonts and simple navigation, built specifically so that elderly users can use it confidently without any technical assistance. Medicare Connect turns medicine management from a daily struggle into a seamless, shared responsibility between patients and the people who care about them.
 
 ---
 
@@ -31,25 +31,22 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Languages used: HTML,CSS,JavaScript
+- Frameworks used: Express.js
+- Libraries used: Mongoose,dotenv,bcrypt,jsonwebtoken,node-cron
+- Tools used: Vscode,GITHUB
 
-**For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
+
 
 ---
 
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- Feature 1:  Dual Role System - Separate login and registration for Patients and Family Members, each with their own dedicated dashboard and access level.
+- Feature 2:  Medicine Management - Family members can add medicines for their linked patient with full details medicine name, dosage, and scheduled time all managed remotely from their own device.
+- Feature 3: Mark as TakenReal-Time Monitoring - Family members can instantly view the live status of each medicine whether it has been taken or missed giving caregivers peace of mind from anywhere. Patients        can mark each medicine as taken directly from their dashboard with a single tap, designed with large buttons and clear text for elderly ease of use.
+- Feature 4:  Elderly-Friendly UI - The entire interface is built with large fonts, high-contrast colors, and simple navigation specifically designed so senior users can interact confidently without any technical   assistance.
 
 ---
 
@@ -83,14 +80,20 @@ List the key features of your project:
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1]
+*![WhatsApp Image 2026-02-28 at 9 53 05 AM](https://github.com/user-attachments/assets/4f677002-d984-4570-9f39-da6304661d66)
+Welcome / Splash Screen
+The animated landing page of Medicare Connect, featuring the site logo, large brand name with letter-by-letter animation, tagline, description, and feature pills the first screen users see before being scrolled into the login page.
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2]
+ ![WhatsApp Image 2026-02-28 at 9 53 21 AM](https://github.com/user-attachments/assets/10519343-9a02-493c-af5a-c6537e9b8ad0)
+ Login Page: Role Selection
+The Medicare Connect login page where users sign in to their existing account. The role dropdown is open showing two options — Login as Patient or Login as Family Member — allowing the system to redirect each user to their respective dashboard. The page also includes a password field, a "Remember me on this device" checkbox for convenience, a Sign In button, and a link to the registration page for new users.
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3]
+![WhatsApp Image 2026-02-28 at 9 53 53 AM](https://github.com/user-attachments/assets/cf042233-9a62-4583-a01f-f72ece814212)
+ Register Page: Account Creation
+The Medicare Connect registration page where new users create their account. The role dropdown is open displaying two options — Register as Patient or Register as Family Member — determining what type of account is created. Patients receive a unique Patient ID upon registration that they can share with their family. The form includes fields for email address, password, and confirm password, followed by a Create Account button and a link back to the login page for existing users.
 
 #### Diagrams
 
