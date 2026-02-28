@@ -3,7 +3,7 @@
 </p>
 
 # [Medicare Connect] 🎯
-
+Deployment lacking, due to certain time constraints and inadequancy of error correction while deployment.
 ## Basic Details
 
 ### Team Name: Aatrix
