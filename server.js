@@ -28,8 +28,20 @@ app.use("/api/medicine", require("./routes/medicineRoutes"));
 
 
 // serve frontend
-app.use(express.static(path.join(__dirname, "frontend")));
+app.use(express.static(path.join(__dirname, "frontend"), {
+  index: "index.html",
+  extensions: ["html"]
+}));
 
+// Root route - serve index.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+});
+
+// Fallback: serve index.html for all routes (for SPA routing)
+app.get(/^(?!\/api\/).*$/, (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+});
 
 const PORT = process.env.PORT || 3000;
 
