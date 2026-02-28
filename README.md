@@ -2,21 +2,21 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+# [Medicare Connect] 🎯
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: [Aatrix]
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: [Aarushi Sankar] - [College of Engineering Chengannur]
+- Member 2: [Gowri Krishna R] - [College of Engineering Chengannur]
 
 ### Hosted Project Link
 [mention your project hosted link here]
 
 ### Project Description
-[2-3 lines about what your project does]
+[2-3 lines about what your project ]
 
 ### The Problem statement
 [What problem are you solving?]
