@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Medicare Connect – Patient Dashboard</title>
 <link rel="stylesheet" href="style.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://127.0.0.1:5500; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:">
 </head>
 <body>
 
@@ -21,6 +22,8 @@
     </div>
     <span class="user-badge" id="userBadge">👤 Patient</span>
   </div>
+
+  <div class="patient-id-card" id="patientIdCard"></div>
 
   <div id="medList"></div>
 
@@ -44,6 +47,28 @@
   var cu = JSON.parse(localStorage.getItem("currentUser") || "{}");
   if (cu.name) document.getElementById("userBadge").innerText = "👤 " + cu.name;
 
+  /* Display Patient ID Card */
+  if (cu.patientId) {
+    var cardEl = document.getElementById("patientIdCard");
+    cardEl.innerHTML = 
+      '<div style="background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2); cursor: pointer;" onclick="copyPatientId()">' +
+      '<div style="color: rgba(255,255,255,0.9); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: 500;">🪪 Your Patient ID</div>' +
+      '<div style="color: white; font-size: 24px; font-weight: 700; font-family: monospace; letter-spacing: 2px;">' + cu.patientId + '</div>' +
+      '<div style="color: rgba(255,255,255,0.85); font-size: 12px; margin-top: 12px;">📋 Click to copy • Share with family members</div>' +
+      '</div>';
+  }
+
+  function copyPatientId() {
+    var cu = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    if (cu.patientId) {
+      navigator.clipboard.writeText(cu.patientId).then(function() {
+        alert("✅ Patient ID copied to clipboard!");
+      }).catch(function(err) {
+        alert("Patient ID: " + cu.patientId);
+      });
+    }
+  }
+
   /* Empty state fallback */
   var medListEl = document.getElementById("medList");
   if (medListEl && !medListEl.innerHTML.trim()) {
@@ -60,6 +85,7 @@
 
   function logout() {
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("autoLogin");
     window.location.href = "login.html";
   }
 </script>

@@ -115,6 +115,11 @@ body::after {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes redGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 0 8px 32px rgba(124, 58, 237, 0.15); }
+  50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.6), 0 8px 32px rgba(220, 38, 38, 0.25); }
+}
+
 /* ══════════════════════════════════════
    BRAND HEADER
 ══════════════════════════════════════ */
@@ -283,6 +288,16 @@ h3 { margin: 22px 0 10px; }
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
+.medicine-card.overdue-card {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.08));
+  border: 2px solid #dc2626;
+  animation: redGlow 1.5s ease-in-out infinite;
+}
+
+.medicine-card.overdue-card::before {
+  background: linear-gradient(180deg, #ef4444, #dc2626);
+}
+
 .medicine-card h3 {
   color: var(--text-white);
   font-size: 22px;
@@ -319,6 +334,25 @@ h3 { margin: 22px 0 10px; }
   color: #f87171;
   background: rgba(248,113,113,0.10);
   border: 1px solid rgba(248,113,113,0.3);
+}
+
+.pending {
+  color: #fbbf24;
+  background: rgba(251,191,36,0.10);
+  border: 1px solid rgba(251,191,36,0.3);
+}
+
+.overdue {
+  color: #ef4444;
+  background: rgba(239,68,68,0.2);
+  border: 2px solid #dc2626;
+  font-weight: 800;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 49%, 100% { opacity: 1; }
+  50%, 99% { opacity: 0.5; }
 }
 
 /* ══════════════════════════════════════

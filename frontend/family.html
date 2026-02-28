@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Medicare Connect – Family Dashboard</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -39,7 +40,10 @@
   </div>
 
   <!-- Monitoring -->
-  <h3>📊 Monitoring</h3>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin: 22px 0 10px;">
+    <h3 style="margin: 0;">📊 Monitoring</h3>
+    <button onclick="refreshMonitor()" style="padding: 8px 14px; font-size: 12px; background: #7c3aed; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🔄 Refresh</button>
+  </div>
   <div id="monitorList">
     <div class="empty-state">
       <div class="empty-icon">📋</div>
@@ -68,6 +72,17 @@
   if (cu.name) document.getElementById("userBadge").innerText = "👤 " + cu.name;
 
   /* Refresh monitor panel */
+  function isTimeOverdue(medicineTime) {
+    var now = new Date();
+    var currentHours = String(now.getHours()).padStart(2, '0');
+    var currentMinutes = String(now.getMinutes()).padStart(2, '0');
+    var currentTime = currentHours + ':' + currentMinutes;
+    return currentTime > medicineTime;
+  }
+
+  // Notification: show only once
+  var NOTIFICATION_SHOWN = false;
+
   function refreshMonitor() {
     cu = JSON.parse(localStorage.getItem("currentUser") || "{}");
     if (!cu.linkedPatientId) return;
@@ -78,21 +93,55 @@
       container.innerHTML = '<div class="empty-state"><div class="empty-icon">💊</div><p>No medicines added yet for this patient.</p></div>';
       return;
     }
+    
+    var hasOverdue = false;
     container.innerHTML = filtered.map(function(med){
-      return '<div class="medicine-card">' +
+      var isOverdue = !med.taken && isTimeOverdue(med.time);
+      if (isOverdue) hasOverdue = true;
+      
+      var statusClass = med.taken ? 'taken' : (isOverdue ? 'overdue' : 'pending');
+      var statusText = med.taken ? '✅ Taken' : (isOverdue ? '🚨 OVERDUE - NOT TAKEN' : '⏳ Pending');
+      var cardClass = isOverdue ? 'medicine-card overdue-card' : 'medicine-card';
+      
+      return '<div class="' + cardClass + '">' +
         '<h3>💊 ' + med.name + '</h3>' +
         '<p>⏰ Time: ' + med.time + '</p>' +
         '<p>💉 Dose: ' + med.dose + '</p>' +
-        '<span class="status ' + (med.taken ? 'taken' : 'missed') + '">' +
-        (med.taken ? '✅ Taken' : '⚠ Not Taken') + '</span>' +
+        '<span class="status ' + statusClass + '">' +
+        statusText + '</span>' +
         '</div>';
     }).join('');
+    
+    // Show browser notification for overdue medicines (only once)
+    if (hasOverdue && !NOTIFICATION_SHOWN) {
+      if (Notification && Notification.permission === "granted") {
+        new Notification("⚠️ Medicare Alert", {
+          body: "One or more medicines are overdue!",
+          icon: "💊"
+        });
+        NOTIFICATION_SHOWN = true;
+      }
+    }
+    
+    // Reset notification flag if no overdue medicines
+    if (!hasOverdue) {
+      NOTIFICATION_SHOWN = false;
+    }
+  }
+
+  // Request notification permission
+  if (Notification && Notification.permission === "default") {
+    Notification.requestPermission();
   }
 
   refreshMonitor();
 
+  // Auto-refresh monitoring every 3 seconds
+  setInterval(refreshMonitor, 3000);
+
   function logout() {
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("autoLogin");
     window.location.href = "login.html";
   }
 </script>
